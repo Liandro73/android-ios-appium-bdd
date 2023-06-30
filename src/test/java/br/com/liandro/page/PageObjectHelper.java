@@ -2,39 +2,24 @@ package br.com.liandro.page;
 
 import br.com.liandro.utils.DeviceDimensions;
 import br.com.liandro.utils.enuns.SwipeDirection;
-import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.PerformsTouchActions;
 import io.appium.java_client.TouchAction;
-import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.touch.offset.PointOption;
 import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.PointerInput;
 import org.openqa.selenium.interactions.Sequence;
 
 import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.Arrays;
-
-import static javafx.scene.input.SwipeEvent.SWIPE_LEFT;
-import static javafx.scene.input.SwipeEvent.SWIPE_RIGHT;
 
 public class PageObjectHelper extends PageObjectFactory {
 
-    LocalDateTime dateTime = LocalDateTime.now();
     public static int value = 0;
-
-    private Dimension windowSize;
-    private Duration SCROLL_DUR = Duration.ofMillis(1000);
-    private double SCROLL_RATIO = 0.8;
-    private int ANDROID_SCROLL_DIVISOR = 3;
 
     DeviceDimensions deviceDimensions = new DeviceDimensions(driver);
 
@@ -57,7 +42,7 @@ public class PageObjectHelper extends PageObjectFactory {
                 .toLowerCase()
                 .replace(" ", "_");
         FileUtils.moveFile(evidence,
-                new File("target/screenshots/" + platformName + "/" + platformName + "__" + stepNameToScreenshot + "_" + dateTime + ".jpg"));
+                new File("target/screenshots/" + platformName + "/" + getCountTest() + "_" + platformName + "__" + stepNameToScreenshot + ".jpg"));
     }
 
     private PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");

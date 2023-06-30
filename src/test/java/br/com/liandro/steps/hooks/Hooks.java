@@ -1,16 +1,13 @@
 package br.com.liandro.steps.hooks;
 
-import br.com.liandro.page.PageObjectHelper;
 import br.com.liandro.utils.DriverManager;
 import io.appium.java_client.AppiumDriver;
 import io.cucumber.java.*;
 
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.time.Instant;
@@ -20,10 +17,10 @@ import java.util.logging.Logger;
 public class Hooks {
 
     protected AppiumDriver driver;
-    protected Instant inicio;
+    protected Instant start;
     private static final Logger LOGGER;
     private static Scenario runningScenario;
-
+    protected String platformName;
     public static int value = 0;
 
     public Integer getCountTest() {
@@ -43,8 +40,25 @@ public class Hooks {
         DriverManager.startDriver();
         this.driver = DriverManager.getDriver();
         runningScenario = scenario;
-        inicio = Instant.now();
+        start = Instant.now();
+
+        platformName = driver.getCapabilities().getPlatformName().toString();
+
         LOGGER.info(" ------------- STARTING SCENARIO ------------- ");
+        if ("IOS".equals(platformName)) {
+            try {
+                FileUtils.deleteDirectory(new File("target/screenshots/" + platformName));
+            } catch (IOException e) {
+            }
+            LOGGER.info(" -------------- RUNNING  ON  IOS -------------- ");
+        }
+        if ("ANDROID".equals(platformName)) {
+            try {
+                FileUtils.deleteDirectory(new File("target/screenshots/" + platformName));
+            } catch (IOException e) {
+            }
+            LOGGER.info(" ------------ RUNNING  ON  ANDROID ------------ ");
+        }
 
         Integer scenarioCount = getCountTest();
         LOGGER.info("SCENARIO: " + scenario.getName().toUpperCase() + "  NUMBER: " + scenarioCount);
@@ -55,9 +69,9 @@ public class Hooks {
     }
 
     @After
-    public void tearDown(Scenario scenario) {
-        Instant fim = Instant.now();
-        long runtime = (fim.toEpochMilli() - inicio.toEpochMilli()) / 1000;
+    public void tearDown(Scenario scenario) throws IOException {
+        Instant end = Instant.now();
+        long runtime = (end.toEpochMilli() - start.toEpochMilli()) / 1000;
         LOGGER.info(" ------------- FINISHING SCENARIO ------------- ");
         LOGGER.info(String.format("STATUS %s", runningScenario.getStatus()));
         LOGGER.info(String.format("RUNTIME: %s SECONDS", runtime));
@@ -66,26 +80,27 @@ public class Hooks {
         DriverManager.stopApp();
     }
 
-    public void finalScreenshot() {
+    public void finalScreenshot() throws IOException {
 
-        String platformName = driver.getCapabilities().getPlatformName().toString();
         String scenarioName = runningScenario.getName();
 
-        byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-        File filePath;
+        File evidence = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
         if (runningScenario.isFailed()) {
-            filePath = new File("target/evidences/" + platformName + "__" + scenarioName + "__FAILED.png");
+            try {
+                FileUtils.forceDelete(
+                        new File("target/evidences/" + platformName + "__" + scenarioName + "__FAILED.png"));
+            } catch (IOException e) {
+            }
+            FileUtils.moveFile(evidence,
+                    new File("target/evidences/" + platformName + "__" + scenarioName + "__FAILED.png"));
         } else {
-            filePath = new File("target/evidences/" + platformName + "__" + scenarioName + "__PASSED.png");
-        }
-        BufferedImage image;
-        ByteArrayInputStream byteArrayIS = new ByteArrayInputStream(screenshot);
-        try {
-            image = ImageIO.read(byteArrayIS);
-            byteArrayIS.close();
-            ImageIO.write(image, "png", filePath);
-        } catch (IOException e) {
-            e.printStackTrace();
+            try {
+                FileUtils.forceDelete(
+                        new File("target/evidences/" + platformName + "__" + scenarioName + "__PASSED.png"));
+            } catch (IOException e) {
+            }
+            FileUtils.moveFile(evidence,
+                    new File("target/evidences/" + platformName + "__" + scenarioName + "__PASSED.png"));
         }
     }
 

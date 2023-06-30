@@ -10,8 +10,6 @@ import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.lang.ref.PhantomReference;
-
 public class PageObjectFactory {
 
     protected AppiumDriver driver;

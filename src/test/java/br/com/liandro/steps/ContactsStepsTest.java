@@ -9,6 +9,20 @@ import java.io.IOException;
 
 public class ContactsStepsTest extends BaseSteps {
 
+    String firstName = faker.name().firstName();
+    String lastName = faker.name().lastName();
+    public String fullName = String.format("%s %s", firstName, lastName);
+    String company = faker.company().name();
+    String phone = faker.phoneNumber().phoneNumber();
+    String address = faker.address().streetAddress();
+    String city = faker.address().city();
+    String state = faker.address().stateAbbr();
+    String postalCode = faker.address().zipCode();
+    String email = String.format(
+            "%s@%s.com",
+            fullName.replace(" ", "").toLowerCase(),
+            company.replace(" ", "").replace(",", "").toLowerCase());
+
     public ContactsStepsTest() {
     }
 
@@ -25,10 +39,9 @@ public class ContactsStepsTest extends BaseSteps {
         homeContactsPageObject.clickOnAddContactButton();
     }
 
-    @And("I fill all the fields {string} {string} {string} {string} {string} {string} {string} {string} {string} {string} {string} {string}")
+    @And("I fill all the fields {string} {string} {string}")
     public void iFillAllTheFields(
-            String firstName, String lastName, String company, String phone, String phoneType,
-            String email, String emailType, String address, String city, String state, String postalCode, String addressType) throws IOException {
+            String phoneType, String emailType, String addressType) throws IOException {
         createContactsPageObject.checkFieldFirstNameIsVisible(scenarioName);
         createContactsPageObject.fillFieldFirstName(scenarioName, firstName);
         createContactsPageObject.fillFieldLastName(scenarioName, lastName);
@@ -60,7 +73,7 @@ public class ContactsStepsTest extends BaseSteps {
 
     @Then("I should see the new contact added successfully")
     public void iShouldSeeTheNewContactAddedSuccessfully() {
-        contactPageObject.clickOnButtonMoreFields();
+        contactPageObject.clickOnButtonMoreFields(fullName);
     }
 
 }
