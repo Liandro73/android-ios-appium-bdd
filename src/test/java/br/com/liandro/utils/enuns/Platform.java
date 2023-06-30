@@ -8,7 +8,7 @@ public enum Platform {
 
     public final String platformName;
 
-    Platform(String platformName){
+    Platform(String platformName) {
         this.platformName = platformName;
     }
 
@@ -20,7 +20,7 @@ public enum Platform {
         return Arrays.stream(values())
                 .filter(enumValue -> enumValue.getValue().equalsIgnoreCase(value))
                 .findAny()
-                .orElseThrow(()->
+                .orElseThrow(() ->
                         new IllegalArgumentException(String.format("The platform %s isn't a valid platform", value)));
     }
 

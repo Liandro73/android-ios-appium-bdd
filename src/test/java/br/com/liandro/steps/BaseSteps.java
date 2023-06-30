@@ -1,5 +1,7 @@
 package br.com.liandro.steps;
 
+import br.com.liandro.page.object.ContactPageObject;
+import br.com.liandro.page.object.CreateContactsPageObject;
 import br.com.liandro.page.object.HomeContactsPageObject;
 import br.com.liandro.page.PageObjectFactory;
 import br.com.liandro.steps.hooks.Hooks;
@@ -22,8 +24,10 @@ public class BaseSteps {
     /**
      * Pages singleton
      */
-    PageObjectFactory pageObjectFactory;
-    HomeContactsPageObject homeContactsPageObject;
+    protected PageObjectFactory pageObjectFactory;
+    protected HomeContactsPageObject homeContactsPageObject;
+    protected CreateContactsPageObject createContactsPageObject;
+    protected ContactPageObject contactPageObject;
 
     public BaseSteps() {
         onAndroid = DriverManager.getPlatform() == Platform.ANDROID;
@@ -31,7 +35,9 @@ public class BaseSteps {
         driver = DriverManager.getDriver();
         waitDriver = DriverManager.getWaitDriver();
         this.pageObjectFactory = new PageObjectFactory(driver);
-        this.homeContactsPageObject = pageObjectFactory.getContactsPageObject();
+        this.homeContactsPageObject = pageObjectFactory.getHomeContactsPageObject();
+        this.createContactsPageObject = pageObjectFactory.getCreateContactsPageObject();
+        this.contactPageObject = pageObjectFactory.getContactPageObject();
         this.scenario = Hooks.getRunningScenario();
         scenarioName = scenario.getName();
     }
