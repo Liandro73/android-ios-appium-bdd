@@ -3,7 +3,6 @@ package br.com.liandro.page.object;
 import br.com.liandro.page.PageObjectHelper;
 import br.com.liandro.utils.enuns.SwipeDirection;
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 import org.openqa.selenium.By;

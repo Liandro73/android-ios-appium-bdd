@@ -7,6 +7,7 @@ import br.com.liandro.page.PageObjectFactory;
 import br.com.liandro.steps.hooks.Hooks;
 import br.com.liandro.utils.DriverManager;
 import br.com.liandro.utils.enuns.Platform;
+import com.github.javafaker.Faker;
 import io.appium.java_client.AppiumDriver;
 
 import io.cucumber.java.Scenario;
@@ -14,6 +15,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class BaseSteps {
 
+    Faker faker = new Faker();
     protected AppiumDriver driver;
     protected WebDriverWait waitDriver;
     protected boolean onAndroid;
