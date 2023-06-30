@@ -25,6 +25,7 @@ public class Hooks {
     private static Scenario runningScenario;
 
     public static int value = 0;
+
     public Integer getCountTest() {
         return value = value + 1;
     }

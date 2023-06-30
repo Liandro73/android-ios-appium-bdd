@@ -6,26 +6,26 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class DeviceDimensions {
 
-    public AppiumDriver driver;
-    public WebDriverWait wait;
-    public final Dimension dimension;
-    public final int height;
-    public final int width ;
-    public final int middleHeight;
-    public final int middleWidth;
-    public final int initialHeight;
-    public final int initialWidth;
+    protected AppiumDriver driver;
+    protected WebDriverWait wait;
+    protected final Dimension dimension;
+    protected final int height;
+    protected final int width;
+    protected final int middleHeight;
+    protected final int middleWidth;
+    protected final int initialHeight;
+    protected final int initialWidth;
 
     public DeviceDimensions(AppiumDriver driver) {
         this.driver = DriverManager.getDriver();
         wait = DriverManager.getWaitDriver();
         this.dimension = this.driver.manage().window().getSize();
         this.height = dimension.getHeight();
-        this.width  = dimension.getWidth();
-        this.middleHeight = height/2;
-        this.middleWidth = width/2;
-        this.initialHeight = 1;
-        this.initialWidth = 1;
+        this.width = dimension.getWidth();
+        this.middleHeight = height / 2;
+        this.middleWidth = width / 2;
+        this.initialHeight = width / 4;
+        this.initialWidth = width / 4;
     }
 
     public int getHeight() {
