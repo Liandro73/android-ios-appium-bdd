@@ -4,7 +4,6 @@ import br.com.liandro.page.PageObjectHelper;
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class ContactPageObject extends PageObjectHelper {
 
@@ -16,14 +15,14 @@ public class ContactPageObject extends PageObjectHelper {
         WebElement labelFullNameContact;
         if ("ANDROID".equals(getPlatformNameString())) {
             labelFullNameContact =
-                    driver.findElement(By.xpath("//android.widget.TextView[@text='" + fullName + "']"));
-            waitDriver.until(ExpectedConditions.elementToBeClickable(labelFullNameContact));
-            labelFullNameContact.isDisplayed();
+                    driver.findElement(By.xpath("//android.widget.TextView[@text=\"" + fullName + "\"]"));
+            clickOnElement(labelFullNameContact);
+            checkElementIsVisible(labelFullNameContact);
         } else {
             labelFullNameContact =
-                    driver.findElement(By.xpath("//XCUIElementTypeStaticText[@name='" + fullName + "']"));
-            waitDriver.until(ExpectedConditions.elementToBeClickable(labelFullNameContact));
-            labelFullNameContact.isDisplayed();
+                    driver.findElement(By.xpath("//XCUIElementTypeStaticText[@name=\"" + fullName + "\"]"));
+            clickOnElement(labelFullNameContact);
+            checkElementIsVisible(labelFullNameContact);
         }
     }
 

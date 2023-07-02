@@ -2,12 +2,12 @@ package br.com.liandro.page.object;
 
 import br.com.liandro.page.PageObjectHelper;
 import br.com.liandro.utils.enuns.SwipeDirection;
+import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.io.IOException;
 
@@ -79,70 +79,67 @@ public class CreateContactsPageObject extends PageObjectHelper {
     }
 
     public void checkFieldFirstNameIsVisible(String step) throws IOException {
-        fieldFirstName.isDisplayed();
+        checkElementIsVisible(fieldFirstName);
         takeScreenshot(step + "___Field first name is displayed");
     }
 
     public void fillFieldFirstName(String step, String firstName) throws IOException {
-        fieldFirstName.isDisplayed();
+        checkElementIsVisible(fieldFirstName);
         fieldFirstName.sendKeys(firstName);
         takeScreenshot(step + "___Field first name is filled");
     }
 
     public void fillFieldLastName(String step, String lastName) throws IOException {
-        fieldLastName.isDisplayed();
+        checkElementIsVisible(fieldLastName);
         fieldLastName.sendKeys(lastName);
         takeScreenshot(step + "___Field last name is filled");
     }
 
     public void fillFieldCompany(String step, String company) throws IOException {
-        fieldCompany.isDisplayed();
+        checkElementIsVisible(fieldCompany);
         fieldCompany.sendKeys(company);
         takeScreenshot(step + "___Field company is filled");
     }
 
     public void clickOnButtonAddPhone() {
-        btnAddPhone.isDisplayed();
-        btnAddPhone.click();
+        checkElementIsVisible(btnAddPhone);
+        clickOnElement(btnAddPhone);
     }
 
-    @AndroidFindBy(accessibility = "Mobile Phone")
-    WebElement spinner;
-
     public void clickOnButtonSelectPhoneTypeAndSelectAType(String phoneType) {
-        btnSelectPhoneType.isDisplayed();
-        btnSelectPhoneType.click();
+        checkElementIsVisible(btnSelectPhoneType);
+        clickOnElement(btnSelectPhoneType);
         WebElement labelPhoneType;
         if("IOS".equals(getPlatformNameString())) {
-            labelPhoneType = driver.findElement(By.xpath(String.format("//XCUIElementTypeStaticText[@name='%s']", phoneType.toLowerCase())));
-            labelPhoneType.click();
+            checkElementIsVisible(labelPhoneType = driver.findElement(By.xpath(String.format("//XCUIElementTypeStaticText[@name='%s']", phoneType.toLowerCase()))));
+            clickOnElement(labelPhoneType);
         } else {
-            labelPhoneType = driver.findElement(By.xpath(String.format("//android.widget.TextView[@text='%s']", phoneType)));
-            labelPhoneType.click();
+            checkElementIsVisible(labelPhoneType = driver.findElement(By.xpath(String.format("//*[@name='%s']", phoneType))));
+            clickOnElement(labelPhoneType);
         }
     }
 
     public void fillFieldPhone(String step, String phone) throws IOException {
-        fieldPhone.isDisplayed();
+        checkElementIsVisible(fieldPhone);
         fieldPhone.sendKeys(phone);
         takeScreenshot(step + "___Field phone is filled");
     }
 
     public void clickOnButtonAddEmail() {
-        btnAddEmail.isDisplayed();
-        btnAddEmail.click();
+        checkElementIsVisible(btnAddEmail);
+        clickOnElement(btnAddEmail);
     }
 
     public void clickOnButtonSelectEmailTypeAndSelectAType(String emailType) {
-        btnSelectEmailType.isDisplayed();
-        btnSelectEmailType.click();
+        checkElementIsVisible(btnSelectEmailType);
+        clickOnElement(btnSelectEmailType);
         WebElement labelEmailType;
         if("IOS".equals(getPlatformNameString())) {
-            labelEmailType = driver.findElement(By.xpath(String.format("//XCUIElementTypeStaticText[@name='%s']", emailType.toLowerCase())));
-            labelEmailType.click();
+            checkElementIsVisible(labelEmailType = driver.findElement(By.xpath(String.format("//XCUIElementTypeStaticText[@name='%s']", emailType.toLowerCase()))));
+            clickOnElement(labelEmailType);
         } else {
-            labelEmailType = driver.findElement(By.xpath(String.format("//*[@name='%s']", emailType)));
-            labelEmailType.click();
+            checkElementIsVisible(labelEmailType = driver.findElement(By.xpath(String.format("//*[@name='%s']", emailType))));
+            clickOnElement(labelEmailType);
         }
     }
 
@@ -150,7 +147,7 @@ public class CreateContactsPageObject extends PageObjectHelper {
         if("ANDROID".equals(getPlatformNameString())) {
             swipe(SwipeDirection.SWIPE_DOWN);
         }
-        fieldEmail.isDisplayed();
+        checkElementIsVisible(fieldEmail);
         fieldEmail.sendKeys(email);
         takeScreenshot(step + "___Field email is filled");
     }
@@ -158,29 +155,29 @@ public class CreateContactsPageObject extends PageObjectHelper {
     public void clickOnButtonAddAddress() {
         swipe(SwipeDirection.SWIPE_DOWN);
         if("IOS".equals(getPlatformNameString())) {
-            btnAddAddress.isDisplayed();
-            btnAddAddress.click();
+            checkElementIsVisible(btnAddAddress);
+            clickOnElement(btnAddAddress);
         } else {
-            btnMoreFields.isDisplayed();
-            btnMoreFields.click();
+            checkElementIsVisible(btnMoreFields);
+            clickOnElement(btnMoreFields);
         }
     }
 
     public void clickOnButtonSelectAddressTypeAndSelectAType(String addressType) {
-        btnSelectAddressType.isDisplayed();
-        btnSelectAddressType.click();
+        checkElementIsVisible(btnSelectAddressType);
+        clickOnElement(btnSelectAddressType);
         WebElement labelAddressType;
         if("IOS".equals(getPlatformNameString())) {
-            labelAddressType = driver.findElement(By.xpath(String.format("//XCUIElementTypeStaticText[@name='%s']", addressType.toLowerCase())));
-            labelAddressType.click();
+            checkElementIsVisible(labelAddressType = driver.findElement(By.xpath(String.format("//XCUIElementTypeStaticText[@name='%s']", addressType.toLowerCase()))));
+            clickOnElement(labelAddressType);
         } else {
-            labelAddressType = driver.findElement(By.xpath(String.format("android.widget.TextView[@name='%s']", addressType)));
-            labelAddressType.click();
+            checkElementIsVisible(labelAddressType = driver.findElement(By.xpath(String.format("android.widget.TextView[@name='%s']", addressType))));
+            clickOnElement(labelAddressType);
         }
     }
 
     public void fillFieldAddress(String step, String address, String city, String state, String postalCode) throws IOException {
-        fieldAddress.isDisplayed();
+        checkElementIsVisible(fieldAddress);
         if("IOS".equals(getPlatformNameString())) {
             fieldAddress.sendKeys(address);
             fieldCity.sendKeys(city);
@@ -196,16 +193,15 @@ public class CreateContactsPageObject extends PageObjectHelper {
     }
 
     public void clickOnButtonSaveContact() {
-        btnSaveContact.isDisplayed();
-        btnSaveContact.click();
+        checkElementIsVisible(btnSaveContact);
+        clickOnElement(btnSaveContact);
     }
 
     public void clickOnButtonMoreFields() {
         swipe(SwipeDirection.SWIPE_DOWN);
         swipe(SwipeDirection.SWIPE_DOWN);
-        btnMoreFields.isDisplayed();
-        waitDriver.until(ExpectedConditions.elementToBeClickable(btnMoreFields));
-        btnMoreFields.click();
+        checkElementIsVisible(btnMoreFields);
+        clickOnElement(btnMoreFields);
         swipe(SwipeDirection.SWIPE_DOWN);
         swipe(SwipeDirection.SWIPE_DOWN);
     }

@@ -3,19 +3,16 @@ package br.com.liandro.page;
 import br.com.liandro.utils.DeviceDimensions;
 import br.com.liandro.utils.enuns.SwipeDirection;
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.PerformsTouchActions;
-import io.appium.java_client.TouchAction;
-import io.appium.java_client.touch.offset.PointOption;
 import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.PointerInput;
 import org.openqa.selenium.interactions.Sequence;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
-import java.util.Arrays;
+import java.util.Collections;
 
 public class PageObjectHelper extends PageObjectFactory {
 
@@ -37,17 +34,16 @@ public class PageObjectHelper extends PageObjectFactory {
 
     protected void takeScreenshot(String step) throws IOException {
         File evidence = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-        String platformName = getPlatformNameString();
         String stepNameToScreenshot = step
                 .toLowerCase()
                 .replace(" ", "_");
         FileUtils.moveFile(evidence,
-                new File("target/screenshots/" + platformName + "/" + getCountTest() + "_" + platformName + "__" + stepNameToScreenshot + ".jpg"));
+                new File("target/screenshots/" + getPlatformNameString() + "/" + getCountTest() + "_" + getPlatformNameString() + "__" + stepNameToScreenshot + ".jpg"));
     }
 
-    private PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
+    private final PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
 
-    public void swipe(SwipeDirection direction) {
+    protected void swipe(SwipeDirection direction) {
 
         Sequence dragNDrop = new Sequence(finger, 1);
         int startX, startY, endX, endY;
@@ -85,17 +81,34 @@ public class PageObjectHelper extends PageObjectFactory {
         dragNDrop.addAction(finger.createPointerMove(Duration.ofMillis(700),
                 PointerInput.Origin.viewport(), endX, endY));
         dragNDrop.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
-        driver.perform(Arrays.asList(dragNDrop));
+        driver.perform(Collections.singletonList(dragNDrop));
     }
 
-    public void swipeDeviceDimensionsUp() {
-        System.out.println("Inicio - Swipe");
-        (new TouchAction((PerformsTouchActions) driver))
-                .press(PointOption.point(deviceDimensions.getMiddleWidth(), deviceDimensions.getMiddleHeight()))
-                .moveTo(PointOption.point(deviceDimensions.getMiddleWidth(), deviceDimensions.getInitialHeight()))
-                .release()
-                .perform();
-        System.out.println("Fim - Swipe");
+    public void waitVisibilityOfElement(WebElement element) {
+        waitDriver.until(ExpectedConditions.visibilityOf(element));
+    }
+
+    public void checkElementIsVisible(WebElement element) {
+        if ("ANDROID".equals(getPlatformNameString())) {
+            waitVisibilityOfElement(element);
+        }
+        element.isDisplayed();
+    }
+
+    protected void getElementClickable(WebElement element) {
+        waitDriver.until(ExpectedConditions.elementToBeClickable(element));
+    }
+
+    protected void waitElementToBeClickable(WebElement element) {
+        waitDriver.until(ExpectedConditions.elementToBeClickable(element));
+    }
+
+    protected void clickOnElement(WebElement element) {
+        if ("ANDROID".equals(getPlatformNameString())) {
+            waitElementToBeClickable(element);
+            getElementClickable(element);
+        }
+        element.click();
     }
 
 }

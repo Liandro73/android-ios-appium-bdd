@@ -27,30 +27,28 @@ public class HomeContactsPageObject extends PageObjectHelper {
         super(driver);
     }
 
-    public boolean checkButtonSkipBackUpOptionIsVisibleAndClick(String step) throws IOException {
+    public void checkButtonSkipBackUpOptionIsVisibleAndClick(String step) throws IOException {
         try {
-            btnSkipBackUpOption.isDisplayed();
+            checkElementIsVisible(btnSkipBackUpOption);
             takeScreenshot(step + "___Button skip is displayed");
-            btnSkipBackUpOption.click();
-            return true;
+            clickOnElement(btnSkipBackUpOption);
         } catch (NullPointerException | NoSuchElementException | StaleElementReferenceException ex) {
-            return false;
         }
     }
 
     public void checkSearchBarIsVisible(String step) throws IOException {
-        fieldSearch.isDisplayed();
+        checkElementIsVisible(fieldSearch);
         takeScreenshot(step + "___Field search is displayed");
     }
 
     public void clickOnSearchBar() {
-        fieldSearch.isDisplayed();
-        fieldSearch.click();
+        checkElementIsVisible(fieldSearch);
+        clickOnElement(fieldSearch);
     }
 
     public void clickOnAddContactButton() {
-        btnAddContact.isDisplayed();
-        btnAddContact.click();
+        checkElementIsVisible(btnAddContact);
+        clickOnElement(btnAddContact);
     }
 
 }
