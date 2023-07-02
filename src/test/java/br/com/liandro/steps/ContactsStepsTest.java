@@ -73,7 +73,7 @@ public class ContactsStepsTest extends BaseSteps {
 
     @Then("I should see the new contact added successfully")
     public void iShouldSeeTheNewContactAddedSuccessfully() {
-        contactPageObject.clickOnButtonMoreFields(fullName);
+        contactPageObject.checkLabelFullNameContactIsDisplayed(fullName);
     }
 
 }

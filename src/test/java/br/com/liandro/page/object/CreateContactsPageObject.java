@@ -6,7 +6,6 @@ import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.iOSXCUITFindBy;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.io.IOException;
@@ -111,10 +110,10 @@ public class CreateContactsPageObject extends PageObjectHelper {
         clickOnElement(btnSelectPhoneType);
         WebElement labelPhoneType;
         if("IOS".equals(getPlatformNameString())) {
-            checkElementIsVisible(labelPhoneType = driver.findElement(By.xpath(String.format("//XCUIElementTypeStaticText[@name='%s']", phoneType.toLowerCase()))));
+            checkElementIsVisible(labelPhoneType = driver.findElement(AppiumBy.xpath("//XCUIElementTypeStaticText[@name=\"" + phoneType.toLowerCase() + "\"]")));
             clickOnElement(labelPhoneType);
         } else {
-            checkElementIsVisible(labelPhoneType = driver.findElement(By.xpath(String.format("//*[@name='%s']", phoneType))));
+            checkElementIsVisible(labelPhoneType = driver.findElement(AppiumBy.xpath("//*[@name=\"" + phoneType + "\"]")));
             clickOnElement(labelPhoneType);
         }
     }
@@ -135,10 +134,10 @@ public class CreateContactsPageObject extends PageObjectHelper {
         clickOnElement(btnSelectEmailType);
         WebElement labelEmailType;
         if("IOS".equals(getPlatformNameString())) {
-            checkElementIsVisible(labelEmailType = driver.findElement(By.xpath(String.format("//XCUIElementTypeStaticText[@name='%s']", emailType.toLowerCase()))));
+            checkElementIsVisible(labelEmailType = driver.findElement(AppiumBy.xpath("//XCUIElementTypeStaticText[@name=\"" + emailType.toLowerCase() + "\"]")));
             clickOnElement(labelEmailType);
         } else {
-            checkElementIsVisible(labelEmailType = driver.findElement(By.xpath(String.format("//*[@name='%s']", emailType))));
+            checkElementIsVisible(labelEmailType = driver.findElement(AppiumBy.xpath("//*[@name=\"" + emailType + "\"]")));
             clickOnElement(labelEmailType);
         }
     }
@@ -168,10 +167,10 @@ public class CreateContactsPageObject extends PageObjectHelper {
         clickOnElement(btnSelectAddressType);
         WebElement labelAddressType;
         if("IOS".equals(getPlatformNameString())) {
-            checkElementIsVisible(labelAddressType = driver.findElement(By.xpath(String.format("//XCUIElementTypeStaticText[@name='%s']", addressType.toLowerCase()))));
+            checkElementIsVisible(labelAddressType = driver.findElement(AppiumBy.xpath("//XCUIElementTypeStaticText[@name=\"" + addressType.toLowerCase() + "\"]")));
             clickOnElement(labelAddressType);
         } else {
-            checkElementIsVisible(labelAddressType = driver.findElement(By.xpath(String.format("android.widget.TextView[@name='%s']", addressType))));
+            checkElementIsVisible(labelAddressType = driver.findElement(AppiumBy.xpath("//*[@name=\"" + addressType + "\"]")));
             clickOnElement(labelAddressType);
         }
     }
