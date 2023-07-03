@@ -13,4 +13,4 @@
 
       Examples:
         | Phone type | Email type | Address type |
-        | Work       | Work       | Other        |
+        | Mobile     | Other      | Other        |
