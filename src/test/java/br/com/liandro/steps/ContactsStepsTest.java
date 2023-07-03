@@ -48,21 +48,25 @@ public class ContactsStepsTest extends BaseSteps {
         createContactsPageObject.fillFieldCompany(scenarioName, company);
         if (oniOS) {
             createContactsPageObject.clickOnButtonAddPhone();
-            createContactsPageObject.clickOnButtonSelectPhoneTypeAndSelectAType(phoneType);
         }
+        createContactsPageObject.clickOnButtonSelectPhoneTypeAndSelectAType(phoneType);
         createContactsPageObject.fillFieldPhone(scenarioName, phone);
         if (oniOS) {
             createContactsPageObject.clickOnButtonAddEmail();
             createContactsPageObject.clickOnButtonSelectEmailTypeAndSelectAType(emailType);
+            createContactsPageObject.fillFieldEmail(scenarioName, email);
         }
-        createContactsPageObject.fillFieldEmail(scenarioName, email);
+        if (onAndroid) {
+            createContactsPageObject.fillFieldEmail(scenarioName, email);
+            createContactsPageObject.clickOnButtonSelectEmailTypeAndSelectAType(emailType);
+        }
         if (oniOS) {
             createContactsPageObject.clickOnButtonAddAddress();
-            createContactsPageObject.clickOnButtonSelectAddressTypeAndSelectAType(addressType);
         }
         if (onAndroid) {
             createContactsPageObject.clickOnButtonMoreFields();
         }
+        createContactsPageObject.clickOnButtonSelectAddressTypeAndSelectAType(addressType);
         createContactsPageObject.fillFieldAddress(scenarioName, address, city, state, postalCode);
     }
 
