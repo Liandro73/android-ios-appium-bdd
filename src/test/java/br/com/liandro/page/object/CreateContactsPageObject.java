@@ -6,6 +6,7 @@ import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.iOSXCUITFindBy;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
 
 import java.io.IOException;
@@ -27,7 +28,7 @@ public class CreateContactsPageObject extends PageObjectHelper {
     @iOSXCUITFindBy(xpath = "//XCUIElementTypeCell[@name='add phone']")
     private WebElement btnAddPhone;
 
-    @AndroidFindBy(xpath = "(//android.widget.ImageButton[@content-desc='Show dropdown menu'])[1]")
+    @AndroidFindBy(accessibility = "Mobile Phone")
     @iOSXCUITFindBy(xpath = "(//XCUIElementTypeImage[@name='Forward'])[1]")
     private WebElement btnSelectPhoneType;
 
@@ -35,7 +36,7 @@ public class CreateContactsPageObject extends PageObjectHelper {
     @iOSXCUITFindBy(xpath = "//XCUIElementTypeTextField[@value='Phone']")
     private WebElement fieldPhone;
 
-    @AndroidFindBy(xpath = "(//android.widget.ImageButton[@content-desc='Show dropdown menu'])[2]")
+    @AndroidFindBy(accessibility = "Home Email")
     @iOSXCUITFindBy(xpath = "(//XCUIElementTypeImage[@name='Forward'])[2]")
     private WebElement btnSelectEmailType;
 
@@ -46,7 +47,7 @@ public class CreateContactsPageObject extends PageObjectHelper {
     @iOSXCUITFindBy(xpath = "//XCUIElementTypeTextField[@value='Email']")
     private WebElement fieldEmail;
 
-    @AndroidFindBy(xpath = "(//android.widget.ImageButton[@content-desc='Show dropdown menu'])[5]")
+    @AndroidFindBy(accessibility = "Home Address")
     @iOSXCUITFindBy(xpath = "(//XCUIElementTypeImage[@name='Forward'])[5]")
     private WebElement btnSelectAddressType;
 
@@ -109,11 +110,11 @@ public class CreateContactsPageObject extends PageObjectHelper {
         checkElementIsVisible(btnSelectPhoneType);
         clickOnElement(btnSelectPhoneType);
         WebElement labelPhoneType;
-        if("IOS".equals(getPlatformNameString())) {
+        if ("IOS".equals(getPlatformNameString())) {
             checkElementIsVisible(labelPhoneType = driver.findElement(AppiumBy.xpath("//XCUIElementTypeStaticText[@name=\"" + phoneType.toLowerCase() + "\"]")));
             clickOnElement(labelPhoneType);
         } else {
-            checkElementIsVisible(labelPhoneType = driver.findElement(AppiumBy.xpath("//*[@name=\"" + phoneType + "\"]")));
+            checkElementIsVisible(labelPhoneType = driver.findElement(AppiumBy.xpath("//android.widget.LinearLayout[@index=3]")));
             clickOnElement(labelPhoneType);
         }
     }
@@ -133,17 +134,18 @@ public class CreateContactsPageObject extends PageObjectHelper {
         checkElementIsVisible(btnSelectEmailType);
         clickOnElement(btnSelectEmailType);
         WebElement labelEmailType;
-        if("IOS".equals(getPlatformNameString())) {
+        if ("IOS".equals(getPlatformNameString())) {
             checkElementIsVisible(labelEmailType = driver.findElement(AppiumBy.xpath("//XCUIElementTypeStaticText[@name=\"" + emailType.toLowerCase() + "\"]")));
             clickOnElement(labelEmailType);
         } else {
-            checkElementIsVisible(labelEmailType = driver.findElement(AppiumBy.xpath("//*[@name=\"" + emailType + "\"]")));
+            checkElementIsVisible(labelEmailType = driver.findElement(AppiumBy.xpath("//android.widget.LinearLayout[@index=0]")));
             clickOnElement(labelEmailType);
         }
     }
 
     public void fillFieldEmail(String step, String email) throws IOException {
-        if("ANDROID".equals(getPlatformNameString())) {
+        if ("ANDROID".equals(getPlatformNameString())) {
+            swipe(SwipeDirection.SWIPE_DOWN);
             swipe(SwipeDirection.SWIPE_DOWN);
         }
         checkElementIsVisible(fieldEmail);
@@ -152,8 +154,8 @@ public class CreateContactsPageObject extends PageObjectHelper {
     }
 
     public void clickOnButtonAddAddress() {
-        swipe(SwipeDirection.SWIPE_DOWN);
-        if("IOS".equals(getPlatformNameString())) {
+        if ("IOS".equals(getPlatformNameString())) {
+            swipe(SwipeDirection.SWIPE_DOWN);
             checkElementIsVisible(btnAddAddress);
             clickOnElement(btnAddAddress);
         } else {
@@ -166,24 +168,24 @@ public class CreateContactsPageObject extends PageObjectHelper {
         checkElementIsVisible(btnSelectAddressType);
         clickOnElement(btnSelectAddressType);
         WebElement labelAddressType;
-        if("IOS".equals(getPlatformNameString())) {
+        if ("IOS".equals(getPlatformNameString())) {
             checkElementIsVisible(labelAddressType = driver.findElement(AppiumBy.xpath("//XCUIElementTypeStaticText[@name=\"" + addressType.toLowerCase() + "\"]")));
             clickOnElement(labelAddressType);
         } else {
-            checkElementIsVisible(labelAddressType = driver.findElement(AppiumBy.xpath("//*[@name=\"" + addressType + "\"]")));
+            checkElementIsVisible(labelAddressType = driver.findElement(AppiumBy.xpath("//android.widget.LinearLayout[@index=0]")));
             clickOnElement(labelAddressType);
         }
     }
 
     public void fillFieldAddress(String step, String address, String city, String state, String postalCode) throws IOException {
         checkElementIsVisible(fieldAddress);
-        if("IOS".equals(getPlatformNameString())) {
+        if ("IOS".equals(getPlatformNameString())) {
             fieldAddress.sendKeys(address);
             fieldCity.sendKeys(city);
             fieldState.sendKeys(state);
             fieldPostalCode.sendKeys(postalCode);
         }
-        if("ANDROID".equals(getPlatformNameString())) {
+        if ("ANDROID".equals(getPlatformNameString())) {
             fieldAddress.sendKeys(String.format(
                     "%s\n" + "%s\n" + "%s\n" + "%s", address, city, state, postalCode
             ));
@@ -201,7 +203,6 @@ public class CreateContactsPageObject extends PageObjectHelper {
         swipe(SwipeDirection.SWIPE_DOWN);
         checkElementIsVisible(btnMoreFields);
         clickOnElement(btnMoreFields);
-        swipe(SwipeDirection.SWIPE_DOWN);
         swipe(SwipeDirection.SWIPE_DOWN);
     }
 
