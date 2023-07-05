@@ -6,7 +6,7 @@ import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.iOSXCUITFindBy;
-import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebElement;
 
 import java.io.IOException;
@@ -110,7 +110,7 @@ public class CreateContactsPageObject extends PageObjectHelper {
         checkElementIsVisible(btnSelectPhoneType);
         clickOnElement(btnSelectPhoneType);
         WebElement labelPhoneType;
-        if ("IOS".equals(getPlatformNameString())) {
+        if (Platform.IOS.equals(getPlatform())) {
             checkElementIsVisible(labelPhoneType = driver.findElement(AppiumBy.xpath("//XCUIElementTypeStaticText[@name=\"" + phoneType.toLowerCase() + "\"]")));
             clickOnElement(labelPhoneType);
         } else {
@@ -134,7 +134,7 @@ public class CreateContactsPageObject extends PageObjectHelper {
         checkElementIsVisible(btnSelectEmailType);
         clickOnElement(btnSelectEmailType);
         WebElement labelEmailType;
-        if ("IOS".equals(getPlatformNameString())) {
+        if (Platform.IOS.equals(getPlatform())) {
             checkElementIsVisible(labelEmailType = driver.findElement(AppiumBy.xpath("//XCUIElementTypeStaticText[@name=\"" + emailType.toLowerCase() + "\"]")));
             clickOnElement(labelEmailType);
         } else {
@@ -144,7 +144,7 @@ public class CreateContactsPageObject extends PageObjectHelper {
     }
 
     public void fillFieldEmail(String step, String email) throws IOException {
-        if ("ANDROID".equals(getPlatformNameString())) {
+        if (Platform.ANDROID.equals(getPlatform())) {
             swipe(SwipeDirection.SWIPE_DOWN);
             swipe(SwipeDirection.SWIPE_DOWN);
         }
@@ -154,7 +154,7 @@ public class CreateContactsPageObject extends PageObjectHelper {
     }
 
     public void clickOnButtonAddAddress() {
-        if ("IOS".equals(getPlatformNameString())) {
+        if (Platform.IOS.equals(getPlatform())) {
             swipe(SwipeDirection.SWIPE_DOWN);
             checkElementIsVisible(btnAddAddress);
             clickOnElement(btnAddAddress);
@@ -168,7 +168,7 @@ public class CreateContactsPageObject extends PageObjectHelper {
         checkElementIsVisible(btnSelectAddressType);
         clickOnElement(btnSelectAddressType);
         WebElement labelAddressType;
-        if ("IOS".equals(getPlatformNameString())) {
+        if (Platform.IOS.equals(getPlatform())) {
             checkElementIsVisible(labelAddressType = driver.findElement(AppiumBy.xpath("//XCUIElementTypeStaticText[@name=\"" + addressType.toLowerCase() + "\"]")));
             clickOnElement(labelAddressType);
         } else {
@@ -179,13 +179,13 @@ public class CreateContactsPageObject extends PageObjectHelper {
 
     public void fillFieldAddress(String step, String address, String city, String state, String postalCode) throws IOException {
         checkElementIsVisible(fieldAddress);
-        if ("IOS".equals(getPlatformNameString())) {
+        if (Platform.IOS.equals(getPlatform())) {
             fieldAddress.sendKeys(address);
             fieldCity.sendKeys(city);
             fieldState.sendKeys(state);
             fieldPostalCode.sendKeys(postalCode);
         }
-        if ("ANDROID".equals(getPlatformNameString())) {
+        if (Platform.ANDROID.equals(getPlatform())) {
             fieldAddress.sendKeys(String.format(
                     "%s\n" + "%s\n" + "%s\n" + "%s", address, city, state, postalCode
             ));

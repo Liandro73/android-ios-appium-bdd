@@ -14,19 +14,23 @@ public class PageObjectFactory {
 
     protected AppiumDriver driver;
     protected WebDriverWait waitDriver;
-    protected final boolean onAndroid;
-    protected final boolean oniOS;
 
+    private PageObjectHelper pageObjectHelper;
     private HomeContactsPageObject homeContactsPageObject;
     private CreateContactsPageObject createContactsPageObject;
     private ContactPageObject contactPageObject;
 
     public PageObjectFactory(AppiumDriver driver) {
-        onAndroid = DriverManager.getPlatform() == Platform.ANDROID;
-        oniOS = DriverManager.getPlatform() == Platform.IOS;
         this.driver = driver;
         waitDriver = DriverManager.getWaitDriver();
         PageFactory.initElements(new AppiumFieldDecorator(driver), this);
+    }
+
+    public PageObjectHelper getPageObjectHelper() {
+        if (this.pageObjectHelper == null) {
+            this.pageObjectHelper = new PageObjectHelper(driver);
+        }
+        return this.pageObjectHelper;
     }
 
     public HomeContactsPageObject getHomeContactsPageObject() {
