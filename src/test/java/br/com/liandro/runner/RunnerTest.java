@@ -11,7 +11,7 @@ import org.junit.runner.RunWith;
         monochrome = true,
         features = {"src/test/resources/features"},
         glue = {"br/com/liandro/steps"},
-        tags = "@Regressive"
+        tags = "@DeleteContact"
 )
 public class RunnerTest {
 

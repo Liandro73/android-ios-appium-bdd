@@ -1,5 +1,6 @@
 package br.com.liandro.steps;
 
+import io.cucumber.java.Before;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -27,6 +28,9 @@ public class ContactsStepsTest extends BaseSteps {
     public ContactsStepsTest() {
     }
 
+    /**
+     * Add new contact successfully
+     */
     @Given("that I am on the Contacts homepage")
     public void thatIAmOnTheContactsHomepage() throws IOException {
         if (Platform.ANDROID.equals(pageObjectHelper.getPlatform())) {
@@ -79,6 +83,33 @@ public class ContactsStepsTest extends BaseSteps {
     @Then("I should see the new contact added successfully")
     public void iShouldSeeTheNewContactAddedSuccessfully() {
         contactPageObject.checkLabelFullNameContactIsDisplayed(fullName);
+    }
+
+    /**
+     * Remove a contact successfully
+     */
+    @Given("that I have a previously created contact")
+    public void thatIHaveAPreviouslyCreatedContact() {
+    }
+
+    @And("I select this contact")
+    public void iSelectThisContact() {
+    }
+
+    @And("I click on Edit Contact button")
+    public void iClickOnEditContactButton() {
+    }
+
+    @When("I click on Delete Contact button")
+    public void iClickOnDeleteContactButton() {
+    }
+
+    @And("I confirm the deletion of that contact")
+    public void iConfirmTheDeletionOfThatContact() {
+    }
+
+    @Then("I should not see the contact in the list")
+    public void iShouldNotSeeTheContactInTheList() {
     }
 
 }
