@@ -28,6 +28,10 @@ public class PageObjectHelper extends PageObjectFactory {
         super(driver);
     }
 
+    public Platform getPlatform() {
+        return driver.getCapabilities().getPlatformName();
+    }
+
     protected String getPlatformNameString() {
         return driver.getCapabilities().getPlatformName().toString();
     }
@@ -89,7 +93,7 @@ public class PageObjectHelper extends PageObjectFactory {
     }
 
     public void checkElementIsVisible(WebElement element) {
-        if ("ANDROID".equals(getPlatformNameString())) {
+        if (Platform.ANDROID.equals(getPlatform())) {
             waitVisibilityOfElement(element);
         }
         element.isDisplayed();
@@ -104,7 +108,7 @@ public class PageObjectHelper extends PageObjectFactory {
     }
 
     protected void clickOnElement(WebElement element) {
-        if ("ANDROID".equals(getPlatformNameString())) {
+        if (Platform.ANDROID.equals(getPlatform())) {
             waitElementToBeClickable(element);
             getElementClickable(element);
         }
