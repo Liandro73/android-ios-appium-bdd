@@ -4,6 +4,7 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.openqa.selenium.Platform;
 
 import java.io.IOException;
 
@@ -28,7 +29,7 @@ public class ContactsStepsTest extends BaseSteps {
 
     @Given("that I am on the Contacts homepage")
     public void thatIAmOnTheContactsHomepage() throws IOException {
-        if (onAndroid) {
+        if (Platform.ANDROID.equals(pageObjectHelper.getPlatform())) {
             homeContactsPageObject.checkButtonSkipBackUpOptionIsVisibleAndClick(scenarioName);
         }
         homeContactsPageObject.checkSearchBarIsVisible(scenarioName);
@@ -46,24 +47,24 @@ public class ContactsStepsTest extends BaseSteps {
         createContactsPageObject.fillFieldFirstName(scenarioName, firstName);
         createContactsPageObject.fillFieldLastName(scenarioName, lastName);
         createContactsPageObject.fillFieldCompany(scenarioName, company);
-        if (oniOS) {
+        if (Platform.IOS.equals(pageObjectHelper.getPlatform())) {
             createContactsPageObject.clickOnButtonAddPhone();
         }
         createContactsPageObject.clickOnButtonSelectPhoneTypeAndSelectAType(phoneType);
         createContactsPageObject.fillFieldPhone(scenarioName, phone);
-        if (oniOS) {
+        if (Platform.IOS.equals(pageObjectHelper.getPlatform())) {
             createContactsPageObject.clickOnButtonAddEmail();
             createContactsPageObject.clickOnButtonSelectEmailTypeAndSelectAType(emailType);
             createContactsPageObject.fillFieldEmail(scenarioName, email);
         }
-        if (onAndroid) {
+        if (Platform.ANDROID.equals(pageObjectHelper.getPlatform())) {
             createContactsPageObject.fillFieldEmail(scenarioName, email);
             createContactsPageObject.clickOnButtonSelectEmailTypeAndSelectAType(emailType);
         }
-        if (oniOS) {
+        if (Platform.IOS.equals(pageObjectHelper.getPlatform())) {
             createContactsPageObject.clickOnButtonAddAddress();
         }
-        if (onAndroid) {
+        if (Platform.ANDROID.equals(pageObjectHelper.getPlatform())) {
             createContactsPageObject.clickOnButtonMoreFields();
         }
         createContactsPageObject.clickOnButtonSelectAddressTypeAndSelectAType(addressType);
