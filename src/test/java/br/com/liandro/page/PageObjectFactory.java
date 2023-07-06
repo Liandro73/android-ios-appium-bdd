@@ -4,7 +4,6 @@ import br.com.liandro.page.object.ContactPageObject;
 import br.com.liandro.page.object.CreateContactsPageObject;
 import br.com.liandro.page.object.HomeContactsPageObject;
 import br.com.liandro.utils.DriverManager;
-import br.com.liandro.utils.enuns.Platform;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import org.openqa.selenium.support.PageFactory;

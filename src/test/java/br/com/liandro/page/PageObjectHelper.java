@@ -18,7 +18,7 @@ public class PageObjectHelper extends PageObjectFactory {
 
     public static int value = 0;
 
-    DeviceDimensions deviceDimensions = new DeviceDimensions(driver);
+    DeviceDimensions deviceDimensions = new DeviceDimensions();
 
     public Integer getCountTest() {
         return value = value + 1;
@@ -113,6 +113,14 @@ public class PageObjectHelper extends PageObjectFactory {
             getElementClickable(element);
         }
         element.click();
+    }
+
+    public void elementExistsAndIsDisplay(WebElement element) {
+        try {
+            waitVisibilityOfElement(element);
+            element.isDisplayed();
+        } catch (NullPointerException | NoSuchElementException | StaleElementReferenceException ex) {
+        }
     }
 
 }

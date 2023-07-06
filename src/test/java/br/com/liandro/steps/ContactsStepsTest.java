@@ -88,28 +88,77 @@ public class ContactsStepsTest extends BaseSteps {
     /**
      * Remove a contact successfully
      */
+    @Before(value = "@DeleteContact")
+    public void beforeDeleteContact() throws IOException {
+        if (Platform.ANDROID.equals(pageObjectHelper.getPlatform())) {
+            homeContactsPageObject.checkButtonSkipBackUpOptionIsVisibleAndClick(scenarioName);
+        }
+        homeContactsPageObject.checkSearchBarIsVisible(scenarioName);
+        homeContactsPageObject.clickOnAddContactButton();
+        createContactsPageObject.checkFieldFirstNameIsVisible(scenarioName);
+        createContactsPageObject.fillFieldFirstName(scenarioName, firstName);
+        createContactsPageObject.fillFieldLastName(scenarioName, lastName);
+        createContactsPageObject.fillFieldCompany(scenarioName, company);
+        if (Platform.IOS.equals(pageObjectHelper.getPlatform())) {
+            createContactsPageObject.clickOnButtonAddPhone();
+        }
+        createContactsPageObject.clickOnButtonSelectPhoneTypeAndSelectAType("Mobile");
+        createContactsPageObject.fillFieldPhone(scenarioName, phone);
+        if (Platform.IOS.equals(pageObjectHelper.getPlatform())) {
+            createContactsPageObject.clickOnButtonAddEmail();
+            createContactsPageObject.clickOnButtonSelectEmailTypeAndSelectAType("Other");
+            createContactsPageObject.fillFieldEmail(scenarioName, email);
+        }
+        if (Platform.ANDROID.equals(pageObjectHelper.getPlatform())) {
+            createContactsPageObject.fillFieldEmail(scenarioName, email);
+            createContactsPageObject.clickOnButtonSelectEmailTypeAndSelectAType("Other");
+        }
+        if (Platform.IOS.equals(pageObjectHelper.getPlatform())) {
+            createContactsPageObject.clickOnButtonAddAddress();
+        }
+        if (Platform.ANDROID.equals(pageObjectHelper.getPlatform())) {
+            createContactsPageObject.clickOnButtonMoreFields();
+        }
+        createContactsPageObject.clickOnButtonSelectAddressTypeAndSelectAType("Other");
+        createContactsPageObject.fillFieldAddress(scenarioName, address, city, state, postalCode);
+        createContactsPageObject.clickOnButtonSaveContact();
+        contactPageObject.checkLabelFullNameContactIsDisplayed(fullName);
+    }
+
     @Given("that I have a previously created contact")
     public void thatIHaveAPreviouslyCreatedContact() {
+        contactPageObject.clickOnButtonBackContacts();
+        homeContactsPageObject.checkThatContactIsInTheList(fullName);
     }
 
     @And("I select this contact")
     public void iSelectThisContact() {
+        homeContactsPageObject.clickOnContactIsInTheList(fullName, email);
     }
 
     @And("I click on Edit Contact button")
     public void iClickOnEditContactButton() {
+        contactPageObject.checkLabelFullNameContactIsDisplayed(fullName);
+        contactPageObject.clickOnButtonEditContact();
     }
 
     @When("I click on Delete Contact button")
     public void iClickOnDeleteContactButton() {
+        contactPageObject.clickOnButtonDeleteContact();
     }
 
     @And("I confirm the deletion of that contact")
     public void iConfirmTheDeletionOfThatContact() {
+        contactPageObject.clickOnButtonConfirmDeleteContact();
     }
 
-    @Then("I should not see the contact in the list")
-    public void iShouldNotSeeTheContactInTheList() {
+    @Then("I should see the confirmation of deletion of the contact")
+    public void iShouldSeeTheConfirmationOfDeletionOfTheContact() {
+        if (Platform.IOS.equals(pageObjectHelper.getPlatform())) {
+            homeContactsPageObject.checkThatContactIsntInTheList(fullName);
+        } else {
+            homeContactsPageObject.checkToastContactDeletedIsVisible();
+        }
     }
 
 }

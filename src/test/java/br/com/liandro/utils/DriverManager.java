@@ -25,7 +25,7 @@ public class DriverManager {
      * You must always set PLATFORM environment variable
      * envPlatform: the PLATFORM environment variable should be selected between ("iOS" and "Android")
      */
-    protected static String envPlatform = "iOS";
+    protected static String envPlatform = "Android";
 
 
     public static Platform getPlatform() {
