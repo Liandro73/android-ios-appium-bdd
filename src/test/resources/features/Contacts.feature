@@ -22,4 +22,4 @@
       And I click on Edit Contact button
       When I click on Delete Contact button
       And I confirm the deletion of that contact
-      Then I should not see the contact in the list
+      Then I should see the confirmation of deletion of the contact

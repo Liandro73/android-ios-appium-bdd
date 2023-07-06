@@ -35,7 +35,7 @@ public class Hooks {
     public Hooks() {
     }
 
-    @Before
+    @Before(order = 0)
     public void startScenario(Scenario scenario) {
         DriverManager.startDriver();
         this.driver = DriverManager.getDriver();

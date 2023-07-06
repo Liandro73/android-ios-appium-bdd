@@ -16,7 +16,7 @@ public class DeviceDimensions {
     protected final int initialHeight;
     protected final int initialWidth;
 
-    public DeviceDimensions(AppiumDriver driver) {
+    public DeviceDimensions() {
         this.driver = DriverManager.getDriver();
         wait = DriverManager.getWaitDriver();
         this.dimension = this.driver.manage().window().getSize();
