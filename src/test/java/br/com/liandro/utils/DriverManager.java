@@ -2,10 +2,10 @@ package br.com.liandro.utils;
 
 import br.com.liandro.utils.enuns.Platform;
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.remote.AndroidMobileCapabilityType;
-import io.appium.java_client.remote.IOSMobileCapabilityType;
-import io.appium.java_client.remote.MobileCapabilityType;
-import org.openqa.selenium.remote.DesiredCapabilities;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.options.UiAutomator2Options;
+import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.ios.options.XCUITestOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.MalformedURLException;
@@ -14,7 +14,8 @@ import java.time.Duration;
 
 public class DriverManager {
 
-    protected static AppiumDriver driver;
+    protected static AndroidDriver androidDriver;
+    protected static IOSDriver iosDriver;
     protected static WebDriverWait waitDriver;
     protected final static int SHORT_TIMEOUT = 5;
     protected final static int LONG_TIMEOUT = 30;
@@ -24,26 +25,23 @@ public class DriverManager {
     /**
      * You must always set PLATFORM environment variable
      * envPlatform: the PLATFORM environment variable should be selected between ("iOS" and "Android")
+     * This variable should be set in the command line using -Dplatform
      */
-    protected static String envPlatform = "Android";
+    protected static String envPlatform;
 
-
-    public static Platform getPlatform() {
-        if (platform != null) {
-            return platform;
-        }
-        throw new RuntimeException("You must call DriverManager.startDriver() before using the platform");
-    }
 
     public static AppiumDriver getDriver() {
-        if ((platform == Platform.ANDROID && driver != null) || (platform == Platform.IOS && driver != null)) {
-            return driver;
+        if (platform == Platform.ANDROID && androidDriver != null) {
+            return androidDriver;
+        }
+        if (platform == Platform.IOS && iosDriver != null) {
+            return iosDriver;
         }
         throw new RuntimeException("You must call DriverManager.startDriver() before using the driver");
     }
 
     public static WebDriverWait getWaitDriver() {
-        if ((platform == Platform.ANDROID && driver != null) || (platform == Platform.IOS && driver != null)) {
+        if ((platform == Platform.ANDROID && androidDriver != null) || (platform == Platform.IOS && iosDriver != null)) {
             return waitDriver;
         }
         throw new RuntimeException("You must call DriverManager.startDriver() before using the waitDriver");
@@ -51,17 +49,17 @@ public class DriverManager {
 
     public static void startDriver() {
 
-        if (envPlatform == null) {
-            throw new RuntimeException("The PLATFORM environment variable is not set");
-        } else if (envPlatform.equals("Android")) {
+        stopApp();
+
+        envPlatform = System.getProperty("platform").toUpperCase();
+
+        if (envPlatform.equals("ANDROID")) {
             platform = Platform.ANDROID;
-        } else if (envPlatform.equals("iOS")) {
+        } else if (envPlatform.equals("IOS")) {
             platform = Platform.IOS;
         } else {
             throw new RuntimeException("Platform not supported: " + envPlatform);
         }
-
-        DesiredCapabilities capabilities = new DesiredCapabilities();
 
         URL driverUrl;
         try {
@@ -72,31 +70,37 @@ public class DriverManager {
 
         switch (platform) {
             case ANDROID:
-                capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
-                capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Emulator Pixel 4");
-                capabilities.setCapability(MobileCapabilityType.UDID, "emulator-5554");
-                capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2");
-                capabilities.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, "com.google.android.contacts");
-                capabilities.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, "com.android.contacts.activities.PeopleActivity");
+                UiAutomator2Options optionsAndroid = new UiAutomator2Options()
+                        .setUdid("emulator-5554")
+                        .setPlatformName("Android")
+                        .setDeviceName("Emulator Pixel 4")
+                        .setAppPackage("com.google.android.contacts")
+                        .setAppActivity("com.android.contacts.activities.PeopleActivity");
+                androidDriver = new AndroidDriver(driverUrl, optionsAndroid);
+                androidDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(SHORT_TIMEOUT));
+                waitDriver = new WebDriverWait(androidDriver, Duration.ofSeconds(LONG_TIMEOUT));
                 break;
             case IOS:
-                capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "iOS");
-                capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Simulator iPhone 14 Pro");
-                capabilities.setCapability(MobileCapabilityType.UDID, "ECD914E6-714A-46DC-9CF7-326B995C1D1A");
-                capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "XCUITest");
-                capabilities.setCapability(IOSMobileCapabilityType.BUNDLE_ID, "com.apple.MobileAddressBook");
-                capabilities.setCapability(IOSMobileCapabilityType.APP_NAME, "Contacts");
+                XCUITestOptions optionsIos = new XCUITestOptions()
+                        .setUdid("ECD914E6-714A-46DC-9CF7-326B995C1D1A")
+                        .setPlatformName("iOS")
+                        .setDeviceName("Simulator iPhone 14 Pro")
+                        .setBundleId("com.apple.MobileAddressBook");
+                iosDriver = new IOSDriver(driverUrl, optionsIos);
+                iosDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(SHORT_TIMEOUT));
+                waitDriver = new WebDriverWait(iosDriver, Duration.ofSeconds(LONG_TIMEOUT));
                 break;
         }
-        driver = new AppiumDriver(driverUrl, capabilities);
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(SHORT_TIMEOUT));
-        waitDriver = new WebDriverWait(driver, Duration.ofSeconds(LONG_TIMEOUT));
     }
 
     public static void stopApp() {
-        if (driver != null) {
-            driver.quit();
-            driver = null;
+        if (androidDriver != null) {
+            androidDriver.quit();
+            androidDriver = null;
+        }
+        if (iosDriver != null) {
+            iosDriver.quit();
+            iosDriver = null;
         }
         waitDriver = null;
     }

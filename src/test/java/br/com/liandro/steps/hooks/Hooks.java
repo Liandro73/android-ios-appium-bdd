@@ -69,7 +69,7 @@ public class Hooks {
     }
 
     @After
-    public void tearDown(Scenario scenario) throws IOException {
+    public void tearDown() throws IOException {
         Instant end = Instant.now();
         long runtime = (end.toEpochMilli() - start.toEpochMilli()) / 1000;
         LOGGER.info(" ------------- FINISHING SCENARIO ------------- ");
