@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Collections;
+import java.util.HashMap;
 
 public class PageObjectHelper extends PageObjectFactory {
 
@@ -86,6 +87,13 @@ public class PageObjectHelper extends PageObjectFactory {
                 PointerInput.Origin.viewport(), endX, endY));
         dragNDrop.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
         driver.perform(Collections.singletonList(dragNDrop));
+    }
+
+    public void swipeToElement(WebElement element) {
+        HashMap scrollObjects = new HashMap();
+        scrollObjects.put("element", element);
+        scrollObjects.put("direction", "up");
+        driver.executeScript("mobile: swipe", scrollObjects);
     }
 
     public void waitVisibilityOfElement(WebElement element) {

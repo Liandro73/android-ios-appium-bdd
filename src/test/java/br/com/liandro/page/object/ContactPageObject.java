@@ -59,11 +59,7 @@ public class ContactPageObject extends PageObjectHelper {
 
     public void clickOnButtonDeleteContact() {
         if (Platform.IOS.equals(getPlatform())) {
-            swipe(SwipeDirection.SWIPE_DOWN);
-            swipe(SwipeDirection.SWIPE_DOWN);
-            swipe(SwipeDirection.SWIPE_DOWN);
-            swipe(SwipeDirection.SWIPE_DOWN);
-            swipe(SwipeDirection.SWIPE_DOWN);
+            swipeToElement(btnDeleteContact);
         }
         if (Platform.ANDROID.equals(getPlatform())) {
             try {
