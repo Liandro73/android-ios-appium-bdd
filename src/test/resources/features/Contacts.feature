@@ -1,6 +1,6 @@
 #language:en
 
-  @Regressive @Contacts
+  @Regressive
   Feature: : Contacts Management
 
     @Smoke @AddContact
