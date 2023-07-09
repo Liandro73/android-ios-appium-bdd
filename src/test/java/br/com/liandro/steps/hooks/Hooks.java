@@ -88,19 +88,19 @@ public class Hooks {
         if (runningScenario.isFailed()) {
             try {
                 FileUtils.forceDelete(
-                        new File("target/evidences/" + platformName + "__" + scenarioName + "__FAILED.png"));
+                        new File("target/generated-report/" + platformName + "__" + scenarioName + "__FAILED.png"));
             } catch (IOException e) {
             }
             FileUtils.moveFile(evidence,
-                    new File("target/evidences/" + platformName + "__" + scenarioName + "__FAILED.png"));
+                    new File("target/generated-report/" + platformName + "__" + scenarioName + "__FAILED.png"));
         } else {
             try {
                 FileUtils.forceDelete(
-                        new File("target/evidences/" + platformName + "__" + scenarioName + "__PASSED.png"));
+                        new File("target/generated-report/" + platformName + "__" + scenarioName + "__PASSED.png"));
             } catch (IOException e) {
             }
             FileUtils.moveFile(evidence,
-                    new File("target/evidences/" + platformName + "__" + scenarioName + "__PASSED.png"));
+                    new File("target/generated-report/" + platformName + "__" + scenarioName + "__PASSED.png"));
         }
     }
 

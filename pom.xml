@@ -17,6 +17,7 @@
         <cucumber.version>7.12.1</cucumber.version>
         <slf4j.version>2.0.5</slf4j.version>
         <faker.version>1.0.2</faker.version>
+        <cluecumber-maven>2.9.4</cluecumber-maven>
     </properties>
 
     <dependencies>
@@ -85,6 +86,37 @@
             <artifactId>javafaker</artifactId>
             <version>${faker.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.trivago.rta</groupId>
+            <artifactId>cluecumber-report-plugin</artifactId>
+            <version>${cluecumber-maven}</version>
+        </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.trivago.rta</groupId>
+                <artifactId>cluecumber-report-plugin</artifactId>
+                <version>${cluecumber-maven}</version>
+                <executions>
+                    <execution>
+                        <id>report</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>reporting</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <sourceJsonReportDirectory>${project.build.directory}/cucumber-report</sourceJsonReportDirectory>
+                    <generatedHtmlReportDirectory>${project.build.directory}/generated-report</generatedHtmlReportDirectory>
+                    <expandBeforeAfterHooks>true</expandBeforeAfterHooks>
+                    <expandStepHooks>true</expandStepHooks>
+                    <expandAttachments>true</expandAttachments>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
