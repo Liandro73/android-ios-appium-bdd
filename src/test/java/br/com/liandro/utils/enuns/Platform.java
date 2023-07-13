@@ -4,7 +4,9 @@ import java.util.Arrays;
 
 public enum Platform {
 
-    ANDROID("ANDROID"), IOS("IOS");
+    ANDROID("ANDROID"), IOS("IOS"),
+    DEVICEFARM_ANDROID("DEVICEFARM_ANDROID"),
+    DEVICEFARM_IOS("DEVICEFARM_IOS");
 
     public final String platformName;
 

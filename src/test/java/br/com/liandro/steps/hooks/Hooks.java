@@ -5,6 +5,7 @@ import io.appium.java_client.AppiumDriver;
 import io.cucumber.java.*;
 
 import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 
@@ -45,14 +46,14 @@ public class Hooks {
         platformName = driver.getCapabilities().getPlatformName().toString();
 
         LOGGER.info(" ------------- STARTING SCENARIO ------------- ");
-        if ("IOS".equals(platformName)) {
+        if ("IOS".equals(platformName) || "DEVICEFARM_IOS".equals(platformName)) {
             try {
                 FileUtils.deleteDirectory(new File("target/screenshots/" + platformName));
             } catch (IOException e) {
             }
             LOGGER.info(" -------------- RUNNING  ON  IOS -------------- ");
         }
-        if ("ANDROID".equals(platformName)) {
+        if ("ANDROID".equals(platformName) || "DEVICEFARM_ANDROID".equals(platformName)) {
             try {
                 FileUtils.deleteDirectory(new File("target/screenshots/" + platformName));
             } catch (IOException e) {
@@ -76,8 +77,21 @@ public class Hooks {
         LOGGER.info(String.format("STATUS %s", runningScenario.getStatus()));
         LOGGER.info(String.format("RUNTIME: %s SECONDS", runtime));
 
+        browserStackShowTestStatus();
         finalScreenshot();
         DriverManager.stopApp();
+    }
+
+    public void browserStackShowTestStatus() {
+        if ("DEVICEFARM_IOS".equals(platformName) || "DEVICEFARM_ANDROID".equals(platformName)) {
+            JavascriptExecutor jse = driver;
+
+            if (runningScenario.isFailed()) {
+                jse.executeScript("browserstack_executor: {\"action\": \"setSessionStatus\", \"arguments\": {\"status\":\"failed\", \"reason\": \"SUCCESS\"}}");
+            } else {
+                jse.executeScript("browserstack_executor: {\"action\": \"setSessionStatus\", \"arguments\": {\"status\": \"passed\", \"reason\": \"FAIL\"}}");
+            }
+        }
     }
 
     public void finalScreenshot() throws IOException {
