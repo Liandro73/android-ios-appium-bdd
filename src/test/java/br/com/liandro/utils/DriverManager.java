@@ -183,6 +183,10 @@ public class DriverManager {
         }
     }
 
+    public static String getEnvPlatform() {
+        return envPlatform = System.getProperty("platform").toUpperCase();
+    }
+
     public static void stopApp() {
         if (androidDriver != null) {
             androidDriver.quit();

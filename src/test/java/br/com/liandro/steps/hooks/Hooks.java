@@ -83,13 +83,13 @@ public class Hooks {
     }
 
     public void browserStackShowTestStatus() {
-        if ("DEVICEFARM_IOS".equals(platformName) || "DEVICEFARM_ANDROID".equals(platformName)) {
+        if ("DEVICEFARM_IOS".equals(DriverManager.getEnvPlatform()) || "DEVICEFARM_ANDROID".equals(DriverManager.getEnvPlatform())) {
             JavascriptExecutor jse = driver;
 
             if (runningScenario.isFailed()) {
-                jse.executeScript("browserstack_executor: {\"action\": \"setSessionStatus\", \"arguments\": {\"status\":\"failed\", \"reason\": \"SUCCESS\"}}");
+                jse.executeScript("browserstack_executor: {\"action\": \"setSessionStatus\", \"arguments\": {\"status\":\"failed\", \"reason\": \" " + getRunningScenario().getName() + " FAIL\"}}");
             } else {
-                jse.executeScript("browserstack_executor: {\"action\": \"setSessionStatus\", \"arguments\": {\"status\": \"passed\", \"reason\": \"FAIL\"}}");
+                jse.executeScript("browserstack_executor: {\"action\": \"setSessionStatus\", \"arguments\": {\"status\":\"passed\", \"reason\": \" " + getRunningScenario().getName() + " SUCCESS\"}}");
             }
         }
     }

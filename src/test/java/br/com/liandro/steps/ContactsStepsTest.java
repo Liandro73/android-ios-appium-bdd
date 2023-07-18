@@ -89,7 +89,7 @@ public class ContactsStepsTest extends BaseSteps {
      * Remove a contact successfully
      */
     @Before(value = "@DeleteContact")
-    public void beforeDeleteContact() throws IOException {
+    public void addANewContactFullProcess() throws IOException {
         if (Platform.ANDROID.equals(pageObjectHelper.getPlatform())) {
             homeContactsPageObject.checkButtonSkipBackUpOptionIsVisibleAndClick(scenarioName);
         }
