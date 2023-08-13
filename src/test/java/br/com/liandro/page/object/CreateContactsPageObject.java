@@ -184,8 +184,7 @@ public class CreateContactsPageObject extends PageObjectHelper {
             fieldCity.sendKeys(city);
             fieldState.sendKeys(state);
             fieldPostalCode.sendKeys(postalCode);
-        }
-        if (Platform.ANDROID.equals(getPlatform())) {
+        } else if (Platform.ANDROID.equals(getPlatform())) {
             fieldAddress.sendKeys(String.format(
                     "%s\n" + "%s\n" + "%s\n" + "%s", address, city, state, postalCode
             ));
