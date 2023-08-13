@@ -1,7 +1,6 @@
 package br.com.liandro.page.object;
 
 import br.com.liandro.page.PageObjectHelper;
-import br.com.liandro.utils.enuns.SwipeDirection;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
@@ -60,8 +59,7 @@ public class ContactPageObject extends PageObjectHelper {
     public void clickOnButtonDeleteContact() {
         if (Platform.IOS.equals(getPlatform())) {
             swipeToElement(btnDeleteContact);
-        }
-        if (Platform.ANDROID.equals(getPlatform())) {
+        } else if (Platform.ANDROID.equals(getPlatform())) {
             try {
                 Thread.sleep(5000);
             } catch (InterruptedException e) {

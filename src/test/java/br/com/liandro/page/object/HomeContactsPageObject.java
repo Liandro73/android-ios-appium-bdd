@@ -60,8 +60,7 @@ public class HomeContactsPageObject extends PageObjectHelper {
         if (Platform.IOS.equals(getPlatform())) {
             clickOnSearchBar();
             fieldSearch.sendKeys(fullName);
-        }
-        if (Platform.ANDROID.equals(getPlatform())) {
+        } else if (Platform.ANDROID.equals(getPlatform())) {
             checkElementIsVisible(fieldSearch);
             clickOnSearchBar();
             elementExistsAndIsDisplay(fieldSearch);
